@@ -1,0 +1,7 @@
+{
+	"n_epoch"	: 1500,
+	"n_test"	: 1000,
+	"lr"		: 1e-2,
+	"n_epoch_v"	: 100,
+	"n_mini_batch"	: 1000
+}
