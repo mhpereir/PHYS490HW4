@@ -5,12 +5,13 @@
 
 ## Dependencies
 
+- os
 - json
+- time
 - numpy
-- matplotlib
 - argparse
+- matplotlib
 - torch
-- collections
 
 ## Running `main.py`
 
