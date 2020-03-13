@@ -21,7 +21,7 @@ To run `main.py`, use
 python3 main.py --input_path=data/even_mnist.csv --params_path=data/params.json -o=results_dir -n=100 -v=2 -cuda=1
 ```
 
-Expect a runtime of >1min. 
+Expect a runtime of >1min. This assignment was written while consulting: https://github.com/pytorch/examples/blob/master/vae/main.py
 
 ## Hyper-parameter `json` file
 

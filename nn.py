@@ -34,7 +34,8 @@ class VAE(nn.Module):
             self.inputs_train  = torch.from_numpy(data.x_train)
 
             self.inputs_test  = torch.from_numpy(data.x_test)
-            
+    
+    
     def encoder(self,x):
         x = func.relu(self.Conv2D1(x))
         x = func.relu(self.Conv2D2(x))#.view(-1,self.n_layers**2*14*14)
