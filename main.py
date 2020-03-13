@@ -2,6 +2,7 @@ import json, argparse, torch
 import torch.optim as optim
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 from time import time
 from nn import VAE
@@ -15,8 +16,10 @@ if __name__ == '__main__':
                         help='input data file name (csv)')
     parser.add_argument('--params_path', metavar='params',
                         help='hyper params file name (json)')
-    parser.add_argument('--output_path', metavar='results',
-                        help='path to results')
+    parser.add_argument('-o', metavar='path', default='results_dir', 
+                        help='path to output results')
+    parser.add_argument('-n', metavar='number',
+                        help='number of output images')
     parser.add_argument('-v', type=int, default=2, metavar='N',
                         help='verbosity (default: 2)')
     parser.add_argument('-cuda', type=int, default=1, metavar='N',
@@ -25,8 +28,8 @@ if __name__ == '__main__':
     
     input_file_path  = args.input_path
     params_file_path = args.params_path
-    output_file_path = args.output_path
     cuda_input       = args.cuda
+    output_path      = args.o
     
     with open(params_file_path) as paramfile:
         param_file = json.load(paramfile)
@@ -36,6 +39,15 @@ if __name__ == '__main__':
     
     # Define an optimizer and the loss function
     optimizer = optim.Adam(model.parameters(), lr=param_file['lr'])
+    
+    
+    try:
+        os.mkdir('results_dir')
+        if args.v>=2:
+            print('Created results_dir')
+    except:
+        pass
+    
     
     if torch.cuda.is_available() and cuda_input == 1:
         torch.cuda.empty_cache()
@@ -64,8 +76,8 @@ if __name__ == '__main__':
         test_val= model.test(n_test=np.minimum(param_file['n_test'],param_file['n_mini_batch']))
         cross_vals.append(test_val)
         
-        if epoch >= 1000:
-            optimizer = optim.Adam(model.parameters(), lr=param_file['lr']/10)
+        #if epoch >= 1000:
+            #optimizer = optim.Adam(model.parameters(), lr=param_file['lr']/10)
         
         # High verbosity report in output stream
         if args.v>=2:
@@ -87,8 +99,8 @@ if __name__ == '__main__':
     ax.plot(range(num_epochs), cross_vals, label= "Test loss", color= "green")
     ax.legend()
     #ax.set_ylim([0,1])
-    fig.savefig(args.output_path + 'loss.pdf')
+    fig.savefig(output_path + '/loss.pdf')
     plt.close()
     
-    model.predict_test(n=100, path=args.output_path, cuda=cuda_input)
+    model.predict_test(n=int(args.n), path=output_path, cuda=cuda_input)
     

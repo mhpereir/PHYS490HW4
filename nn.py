@@ -101,6 +101,6 @@ class VAE(nn.Module):
             for i in range(0,n):
                 fig,ax = plt.subplots()
                 ax.imshow(x_rec_image[i,:,:], cmap=cm.binary)
-                fig.savefig(path+'{}.pdf'.format(i+1))
+                fig.savefig(path+'/{}.pdf'.format(i+1))
                 plt.close('all')
             
